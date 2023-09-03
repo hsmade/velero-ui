@@ -2,14 +2,7 @@
   <div v-if="props.status.progress.itemsBackedUp !== undefined">
     {{ props.status.progress.itemsBackedUp }} / {{ props.status.progress.totalItems }} items done
     <div v-if="props.status.phase === 'InProgress'" >
-      <v-progress-linear striped color="primary" model-value=100*props.status.progress?.itemsBackedUp/props.status.progress?.totalItems />
-      <br />
-    </div>
-  </div>
-  <div v-if="props.status.progress.bytesDone !== undefined">
-    {{ props.status.progress.bytesDone }} / {{ props.status.progress.totalBytes }} bytes done
-    <div v-if="props.status.phase === 'InProgress'" >
-      <v-progress-linear striped color="primary" model-value=100*props.status.progress?.bytesDone/props.status.progress?.totalBytes />
+      <v-progress-linear striped color="primary" :model-value="(100*props.status.progress.itemsBackedUp)/props.status.progress.totalItems"/>
       <br />
     </div>
   </div>
