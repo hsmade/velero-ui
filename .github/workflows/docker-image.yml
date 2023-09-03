@@ -13,10 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: get sha
-      id: sha
-      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-    - name: Build the Docker image
-      run: docker build -t ghcr.io/hsmade/velero-ui:${{ steps.sha.outputs.sha_short }} .
-    - name: upload to GH docker registry
-      run: docker push ghcr.io/hsmade/velero-ui:${{ steps.sha.outputs.sha_short }}
+    - name: Login to GitHub Packages
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
