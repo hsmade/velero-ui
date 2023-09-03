@@ -17,6 +17,6 @@ jobs:
       id: sha
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Build the Docker image
-      run: docker build -t hsmade/velero-ui:${{ steps.sha.outputs.sha_short }} .
+      run: docker build -t ghcr.io/hsmade/velero-ui:${{ steps.sha.outputs.sha_short }} .
     - name: upload to GH docker registry
-      run: docker push hsmade/velero-ui:${{ steps.sha.outputs.sha_short }}
+      run: docker push ghcr.io/hsmade/velero-ui:${{ steps.sha.outputs.sha_short }}
