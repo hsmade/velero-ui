@@ -7,6 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
+	"reflect"
 )
 
 func GetByName(ctx context.Context, dynamicClient dynamic.Interface, gvr schema.GroupVersionResource, name string, result interface{}) error {
@@ -15,12 +16,12 @@ func GetByName(ctx context.Context, dynamicClient dynamic.Interface, gvr schema.
 		Namespace("velero").
 		Get(ctx, name, metav1.GetOptions{})
 	if err != nil {
-		return fmt.Errorf("fetching backup resource: %w", err)
+		return fmt.Errorf("fetching '%s' resource: %w", reflect.TypeOf(result), err)
 	}
 
 	err = runtime.DefaultUnstructuredConverter.FromUnstructured(crRaw.UnstructuredContent(), result)
 	if err != nil {
-		return fmt.Errorf("unmarshal backup resource: %w", err)
+		return fmt.Errorf("unmarshal '%s' resource: %w", reflect.TypeOf(result), err)
 	}
 	return nil
 }
@@ -31,7 +32,7 @@ func GetByFilter(ctx context.Context, dynamicClient dynamic.Interface, gvr schem
 		Namespace("velero").
 		List(ctx, filter)
 	if err != nil {
-		return fmt.Errorf("listing backup deletion request resource: %w", err)
+		return fmt.Errorf("listing '%s' resource: %w", reflect.TypeOf(result), err)
 	}
 
 	if len(crRaw.Items) == 0 {
@@ -40,11 +41,11 @@ func GetByFilter(ctx context.Context, dynamicClient dynamic.Interface, gvr schem
 
 	err = runtime.DefaultUnstructuredConverter.FromUnstructured(crRaw.Items[0].UnstructuredContent(), result)
 	if err != nil {
-		return fmt.Errorf("unmarshal backup deletion request resource: %w", err)
+		return fmt.Errorf("unmarshal '%s'' resource: %w", reflect.TypeOf(result), err)
 	}
 
 	if len(crRaw.Items) > 1 {
-		return fmt.Errorf("more than one backup deletion request returned: %d", len(crRaw.Items))
+		return fmt.Errorf("more than one '%s' returned: %d", reflect.TypeOf(result), len(crRaw.Items))
 	}
 	return nil
 }
@@ -55,7 +56,7 @@ func ListByFilter[E interface{}](ctx context.Context, dynamicClient dynamic.Inte
 		Namespace("velero").
 		List(ctx, filter)
 	if err != nil {
-		return fmt.Errorf("listing backup deletion request resource: %w", err)
+		return fmt.Errorf("listing '%s'' resource: %w", reflect.TypeOf(result), err)
 	}
 
 	if len(crRaw.Items) == 0 {
@@ -64,9 +65,9 @@ func ListByFilter[E interface{}](ctx context.Context, dynamicClient dynamic.Inte
 
 	for _, itemRaw := range crRaw.Items {
 		var item E
-		err = runtime.DefaultUnstructuredConverter.FromUnstructured(itemRaw.UnstructuredContent(), item)
+		err = runtime.DefaultUnstructuredConverter.FromUnstructured(itemRaw.UnstructuredContent(), &item)
 		if err != nil {
-			return fmt.Errorf("unmarshal backup deletion request resource: %w", err)
+			return fmt.Errorf("unmarshal '%s' resource: %w", reflect.TypeOf(result), err)
 		}
 		*result = append(*result, item)
 	}
