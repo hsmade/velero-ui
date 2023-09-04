@@ -7,6 +7,7 @@ RUN yarn build
 FROM golang:1.21-alpine as go
 COPY api /app/api
 COPY internal /app/internal
+COPY util /app/util
 COPY main.go go.mod go.sum /app/
 WORKDIR /app
 RUN go build main.go
