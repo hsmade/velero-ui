@@ -7,7 +7,10 @@ import (
 
 func main() {
 	r := gin.Default()
-	api.New(r.Group("/api/v1"))
+	err := api.New(r.Group("/api/v1"))
+	if err != nil {
+		panic(err)
+	}
 	r.Static("/assets", "./web/dist/assets")
 	r.StaticFile("/", "./web/dist/index.html")
 	r.Run(":8080")
