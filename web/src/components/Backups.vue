@@ -10,7 +10,6 @@
 <script setup>
 import {onBeforeUnmount, onMounted, ref} from 'vue'
 import BackupLine from "@/components/BackupLine.vue";
-import BackupStatus from "@/components/BackupStatus.vue";
 
   let timer
   onMounted(() => {

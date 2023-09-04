@@ -2,6 +2,7 @@
     <v-layout>
       <v-navigation-drawer
         permanent
+        style="background-color: #3F51B5; color:white;"
       >
         <v-list nav density="compact">
           <v-list-item to="/" prepend-icon="mdi-email" title="Home" value="Home"></v-list-item>
@@ -13,6 +14,5 @@
       </v-main>
     </v-layout>
 </template>
-
 <script setup>
 </script>

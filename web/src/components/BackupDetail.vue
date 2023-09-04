@@ -1,4 +1,5 @@
 <template>
+
   <v-card
     v-if="data.Backup !== undefined"
   >
@@ -7,18 +8,17 @@
       <v-card-subtitle>{{ data.Backup.status.phase }}</v-card-subtitle>
     </v-card-item>
     <v-card-text>
-      <BackupStatus :status="data.Backup.status"/>
+      <BackupStatus :data="data.Backup"/>
     </v-card-text>
-    -- more detail --
   </v-card>
 
-  <po-volume-backup-line
+  <pod-volume-backup-line
     v-if="data.PodVolumeBackups !== undefined"
     v-for="item in in_progress_pods"
     key="item.metadata.name"
     :data="item"
   />
-  <po-volume-backup-line
+  <pod-volume-backup-line
     v-if="data.PodVolumeBackups !== undefined"
     v-for="item in completed_pods"
     key="item.metadata.name"
@@ -30,7 +30,7 @@
 import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
 import {useRoute} from "vue-router";
 import BackupStatus from "@/components/BackupStatus.vue";
-import PoVolumeBackupLine from "@/components/PoVolumeBackupLine.vue";
+import PodVolumeBackupLine from "@/components/PodVolumeBackupLine.vue";
 
   const route = useRoute()
   let timer

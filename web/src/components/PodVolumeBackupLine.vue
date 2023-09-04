@@ -1,12 +1,8 @@
 <template>
-<!--  <v-card :style="'border-left: 1px solid ' + properties.data.status.phase==='Failed'?'red':'green'">-->
   <v-card
-    class="pa-0 ma-0"
-    :style="properties.data.status.phase==='Failed'?'border-left: 2px solid #FF7F00':properties.data.status.phase==='Completed'?'border-left: 2px solid #7FFF00':'border-left: 2px solid #0000FF'"
+    class="pa-0 ma-2"
+    :style="properties.data.status.phase==='Failed'?'border-left: 3px solid #FF7F00':properties.data.status.phase==='Completed'?'border-left: 3px solid #7FFF00':'border-left: 3px solid #0000FF'"
   >
-<!--    <v-card-item>-->
-<!--      <v-card-title>{{ properties.data.metadata.name }} - {{properties.data.status.phase}}</v-card-title>-->
-<!--    </v-card-item>-->
     <v-card-text class="pa-0 ma-0">
       <v-row no-gutters class="pa-0 ma-0">
         <v-col>

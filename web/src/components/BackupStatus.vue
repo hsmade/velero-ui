@@ -1,27 +1,45 @@
 <template>
-  <div v-if="props.status.progress.itemsBackedUp !== undefined">
-    {{ props.status.progress.itemsBackedUp }} / {{ props.status.progress.totalItems }} items done
-    <div v-if="props.status.phase === 'InProgress'" >
-      <v-progress-linear striped color="primary" :model-value="(100*props.status.progress.itemsBackedUp)/props.status.progress.totalItems"/>
+  <div v-if="properties.data.status.progress.itemsBackedUp !== undefined">
+    {{ properties.data.status.progress.itemsBackedUp }} / {{ properties.data.status.progress.totalItems }} items done
+    <div v-if="properties.data.status.phase === 'InProgress'" >
+      <v-progress-linear striped color="primary" :model-value="(100*properties.data.status.progress.itemsBackedUp)/properties.data.status.progress.totalItems"/>
       <br />
     </div>
   </div>
   <div>
+    <b>Storage location:</b>
+    {{ properties.data.spec.storageLocation}}
+  </div>
+  <div>
     <b>Started:</b>
-    {{ props.status.startTimestamp}}
+    {{ properties.data.status.startTimestamp}}
   </div>
-  <div v-if="props.status.phase === 'Completed'">
+  <div>
     <b>Completed:</b>
-    {{ props.status.completionTimestamp}}
+    {{ properties.data.status.completionTimestamp}}
   </div>
-  <div v-if="props.status.expiration !== undefined">
+  <div v-if="properties.data.status.expiration !== undefined">
     <b>Expires:</b>
-    {{ props.status.expiration}}
+    {{ properties.data.status.expiration}}
+  </div>
+  <div v-if="properties.data.status.warnings > 0" >
+    <b>Warnings:</b>
+    {{ properties.data.status.warnings }}
+  </div>
+  <div v-if="properties.data.status.errors > 0" >
+    <b>Errors:</b>
+    {{ properties.data.status.errors }}
   </div>
 </template>
 
+<!--tbd: more detail -->
+<!--namespaces / resources filters-->
+<!--label selectors-->
+<!--link to errors/logs-->
+<!--raw yaml popup-->
+
 <script setup>
-const props = defineProps({
-  status: Object
+const properties = defineProps({
+  data: Object
 })
 </script>
