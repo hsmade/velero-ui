@@ -26,6 +26,8 @@ func New(router *gin.RouterGroup) error {
 	}
 
 	api := Api{dynamicClient: dynamicClient}
+	router.GET("/schedules", api.ListSchedules)
+	router.GET("/schedule/:name", api.GetSchedule)
 	router.GET("/backups", api.ListBackups)
 	router.GET("/backup/:name", api.GetBackup)
 	return nil
