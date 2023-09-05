@@ -36,20 +36,20 @@
                   <v-progress-linear striped color="primary" :model-value=100*properties.data.status.progress.bytesDone/properties.data.status.progress.totalBytes />
                 </div>
                 <div v-else>{{ properties.data.status.phase }}</div>
-                <v-expand-transition>
-                  <div
-                    v-if="isHovering"
-                    class="d-flex transition-fast-in-fast-out"
-                    style="height: 100%;"
-                  >
-                    <div v-if="properties.data.status.progress.bytesDone !== undefined">
-                      {{ properties.data.status.progress.bytesDone }} / {{ properties.data.status.progress.totalBytes }} bytes
-                    </div>
-                    <div v-else>
-                      {{ properties.data.status.message }}
-                    </div>
-                  </div>
-                </v-expand-transition>
+<!--                <v-expand-transition>-->
+<!--                  <div-->
+<!--                    v-if="isHovering"-->
+<!--                    class="d-flex transition-fast-in-fast-out"-->
+<!--                    style="height: 100%;"-->
+<!--                  >-->
+<!--                    <div v-if="properties.data.status.progress.bytesDone !== undefined">-->
+<!--                      {{ properties.data.status.progress.bytesDone }} / {{ properties.data.status.progress.totalBytes }} bytes-->
+<!--                    </div>-->
+<!--                    <div v-else>-->
+<!--                      {{ properties.data.status.message }}-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </v-expand-transition>-->
               </div>
             </v-hover>
           </v-sheet>
