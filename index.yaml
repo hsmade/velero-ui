@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  velero-ui:
+  - apiVersion: 0.0.0
+    appVersion: 0.0.0
+    created: "2023-09-06T20:47:20.952576525Z"
+    description: A simple web UI for velero
+    digest: b4c86819332bd9c25f2ac793104a8f9101b46d7522053dc95fc1a413b96fc93b
+    keywords:
+    - velero
+    - ui
+    maintainers:
+    - email: velero-ui@fournier.nl
+      name: Wim Fournier
+    name: velero-ui
+    sources:
+    - https://github.com/hsmade/velero-ui
+    urls:
+    - https://github.com/hsmade/velero-ui/releases/download/0.0.0/velero-ui-0.0.0.tgz
+    version: 0.0.0
+generated: "2023-09-06T20:47:20.952196926Z"

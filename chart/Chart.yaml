@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: 0.0.0
 name: velero-ui
 version: 0.0.0
 description: A simple web UI for velero
