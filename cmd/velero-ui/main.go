@@ -13,5 +13,6 @@ func main() {
 	}
 	r.Static("/assets", "./web/dist/assets")
 	r.StaticFile("/", "./web/dist/index.html")
-	r.Run(":8080")
+	err = r.Run(":8080")
+	panic(err)
 }

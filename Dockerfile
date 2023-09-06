@@ -9,7 +9,7 @@ COPY api /app/api
 COPY cmd /app/cmd
 COPY internal /app/internal
 COPY util /app/util
-COPY main.go go.mod go.sum /app/
+COPY go.mod go.sum /app/
 WORKDIR /app
 RUN go build cmd/velero-ui
 
