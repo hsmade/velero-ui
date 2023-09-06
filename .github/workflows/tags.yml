@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          ssh-key: ${{secrets.KEY}}
       - name: Login to GitHub Packages
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
@@ -50,7 +51,7 @@ jobs:
           body: "Helm chart for velero-ui version ${{github.ref_name}}"
 
       - name: add to repo index
-        run: linux-amd64/helm repo index --merge https://github.com/hsmade/velero-ui/releases/download/${{github.ref_name}}/velero-ui-${{github.ref_name}}.tgz .
+        run: linux-amd64/helm repo index --merge index.yaml --url https://github.com/hsmade/velero-ui/releases/download/${{github.ref_name}} .
 
       - name: commit index.yaml
         run: |
