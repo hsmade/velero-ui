@@ -6,13 +6,14 @@ RUN yarn build
 
 FROM golang:1.21-alpine as go
 COPY api /app/api
+COPY cmd /app/cmd
 COPY internal /app/internal
 COPY util /app/util
 COPY main.go go.mod go.sum /app/
 WORKDIR /app
-RUN go build main.go
+RUN go build cmd/velero-ui
 
 FROM scratch
 COPY --from=node /app/web/dist /web/dist
-COPY --from=go /app/main /
-ENTRYPOINT ["/main"]
+COPY --from=go /app/velero-ui /
+ENTRYPOINT ["/velero-ui"]

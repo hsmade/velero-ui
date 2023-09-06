@@ -1,0 +1,13 @@
+apiVersion: v2
+name: velero-ui
+version: 0.1.0
+description: A simple web UI for velero
+keywords:
+  - velero
+  - ui
+sources:
+  - https://github.com/hsmade/velero-ui
+maintainers:
+  - name: Wim Fournier
+    email: velero-ui@fournier.nl
+appVersion: 0.1.0

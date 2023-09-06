@@ -1,0 +1,61 @@
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  packages: write
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GitHub Packages
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{github.ref_name}}
+
+      - name: install helm
+        run: |
+          wget https://get.helm.sh/helm-v3.12.3-linux-amd64.tar.gz
+          tar xzf helm*.tar.gz
+
+      - name: version chart
+        run: |
+          sed -e 's/ersion: .*/ersion: ${{github.ref_name}}/' -i chart/Chart.yaml
+          sed -e 's/^imageVersion:.*/imageVersion: ${{github.ref_name}}/' -i chart/values.yaml
+
+      - name: package chart
+        run: linux-amd64/helm package chart
+
+      - name: upload chart to releases
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: velero-ui-${{github.ref_name}}.tgz
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "Helm chart for velero-ui version ${{github.ref_name}}"
+
+      - name: add to repo index
+        run: linux-amd64/helm repo index --merge https://github.com/hsmade/velero-ui/releases/download/${{github.ref_name}}/velero-ui-${{github.ref_name}}.tgz .
+
+      - name: commit index.yaml
+        run: |
+          git config --global user.name "Github Actions pipeline"
+          git config --global user.email "hsmade@users.noreply.github.com"
+          git add index.yaml chart/Chart.yaml chart/values.yaml
+          git commit -m "update index.yaml for release ${{github.ref_name}}"
+          git push          

@@ -5,23 +5,15 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-permissions:
-  packages: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Login to GitHub Packages
-      uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build and push Docker image
       uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4
       with:
         context: .
-        push: true
+        push: false
         tags: ghcr.io/${{ github.repository }}:${{ github.sha }}

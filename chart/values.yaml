@@ -1,0 +1,6 @@
+pod:
+  imageVersion: 0.0.0
+ingress:
+  enabled: true
+  ingressClassname: nginx
+  annotations: {}
