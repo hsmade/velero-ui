@@ -11,9 +11,9 @@ COPY internal /app/internal
 COPY util /app/util
 COPY go.mod go.sum /app/
 WORKDIR /app
-RUN go build cmd/velero-ui
+RUN go build cmd/velero-ui/main.go
 
 FROM scratch
 COPY --from=node /app/web/dist /web/dist
-COPY --from=go /app/velero-ui /
+COPY --from=go /app/main /velero-ui
 ENTRYPOINT ["/velero-ui"]
