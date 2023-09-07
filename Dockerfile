@@ -8,7 +8,6 @@ FROM golang:1.21-alpine as go
 COPY api /app/api
 COPY cmd /app/cmd
 COPY internal /app/internal
-COPY util /app/util
 COPY go.mod go.sum /app/
 WORKDIR /app
 RUN go build cmd/velero-ui/main.go

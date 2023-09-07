@@ -3,7 +3,7 @@ package schedules
 import (
 	"context"
 	"fmt"
-	"github.com/hsmade/velero-ui/util"
+	"github.com/hsmade/velero-ui/internal/k8s"
 	velerov1api "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -11,11 +11,12 @@ import (
 )
 
 type ScheduleDetail struct {
-	Schedule *velerov1api.Schedule
-	Backups  []*velerov1api.Backup
+	Schedule *velerov1api.Schedule `json:"schedule"`
+	Backups  []*velerov1api.Backup `json:"backups"`
 }
 
-func Detail(ctx context.Context, dynamicClient dynamic.Interface, name string) (*ScheduleDetail, error) {
+// GetScheduleDetail returns a struct with the schedule info for the schedule specified by `name`
+func GetScheduleDetail(ctx context.Context, dynamicClient dynamic.Interface, name string) (*ScheduleDetail, error) {
 	schedule, err := getSchedule(ctx, dynamicClient, name)
 	if err != nil {
 		return nil, fmt.Errorf("get schedule: %w", err)
@@ -34,9 +35,10 @@ func Detail(ctx context.Context, dynamicClient dynamic.Interface, name string) (
 	return &result, nil
 }
 
+// getSchedule gets a single schedule by `name`
 func getSchedule(ctx context.Context, dynamicClient dynamic.Interface, name string) (*velerov1api.Schedule, error) {
 	schedule := new(velerov1api.Schedule)
-	err := util.GetByName(ctx, dynamicClient, schema.GroupVersionResource{
+	err := k8s.GetByName(ctx, dynamicClient, schema.GroupVersionResource{
 		Group:    "velero.io",
 		Version:  "v1",
 		Resource: "schedules",
@@ -47,9 +49,10 @@ func getSchedule(ctx context.Context, dynamicClient dynamic.Interface, name stri
 	return schedule, err
 }
 
+// getBackups gets all Backups by schedule `name`
 func getBackups(ctx context.Context, dynamicClient dynamic.Interface, name string) ([]*velerov1api.Backup, error) {
 	backups := new([]*velerov1api.Backup)
-	err := util.ListByFilter(ctx, dynamicClient,
+	err := k8s.ListByFilter(ctx, dynamicClient,
 		schema.GroupVersionResource{
 			Group:    "velero.io",
 			Version:  "v1",

@@ -27,6 +27,8 @@ import BackupLine from "@/components/BackupLine.vue";
   function update() {
     fetch("/api/v1/backups")
       .then(response => response.json())
-      .then(response => data.value = response.result)
+      .then(response => data.value = response.result
+        .sort((a, b) => new Date(b.status.startTimestamp) - new Date(a.status.startTimestamp))
+      )
   }
 </script>

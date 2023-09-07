@@ -12,6 +12,7 @@ type Api struct {
 }
 
 func New(router *gin.RouterGroup) error {
+	// set up k8s client
 	loadingRules := clientcmd.NewDefaultClientConfigLoadingRules()
 	configOverrides := &clientcmd.ConfigOverrides{}
 	kubeConfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(loadingRules, configOverrides)

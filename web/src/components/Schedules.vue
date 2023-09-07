@@ -27,6 +27,8 @@ let data = ref(Array)
 function update() {
   fetch("/api/v1/schedules")
     .then(response => response.json())
-    .then(response => data.value = response.result)
+    .then(response => data.value = response.result
+      .sort((a, b) => new Date(b.status.lastBackup) - new Date(a.status.lastBackup))
+    )
 }
 </script>

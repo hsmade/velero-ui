@@ -7,7 +7,7 @@ import (
 )
 
 func (a *Api) ListSchedules(c *gin.Context) {
-	result, err := schedules.List(c, a.dynamicClient)
+	result, err := schedules.ListSchedules(c, a.dynamicClient)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -18,7 +18,7 @@ func (a *Api) ListSchedules(c *gin.Context) {
 
 func (a *Api) GetSchedule(c *gin.Context) {
 	name := c.Param("name")
-	result, err := schedules.Detail(c, a.dynamicClient, name)
+	result, err := schedules.GetScheduleDetail(c, a.dynamicClient, name)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

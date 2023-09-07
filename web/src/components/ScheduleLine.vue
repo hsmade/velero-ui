@@ -21,14 +21,14 @@
         </v-col>
         <v-col>
           <v-sheet class="pa-0 ma-0">
-            <b>foo:</b>
+            <b>Last backup:</b>
             <br/>
-            <b>bar:</b>
+            <b>foo:</b>
           </v-sheet>
         </v-col>
         <v-col>
           <v-sheet class="pa-0 ma-0">
-            foo
+            {{ properties.data.status.lastBackup }}
             <br/>
             bar
           </v-sheet>

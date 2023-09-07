@@ -1,4 +1,5 @@
-package util
+// Package k8s provides helper functions to query for the velero custom resources
+package k8s
 
 import (
 	"context"
@@ -10,6 +11,7 @@ import (
 	"reflect"
 )
 
+// GetByName gets a single custom resource by Name
 func GetByName(ctx context.Context, dynamicClient dynamic.Interface, gvr schema.GroupVersionResource, name string, result interface{}) error {
 	crRaw, err := dynamicClient.
 		Resource(gvr).
@@ -26,6 +28,7 @@ func GetByName(ctx context.Context, dynamicClient dynamic.Interface, gvr schema.
 	return nil
 }
 
+// GetByFilter gets a single custom resource by filter (labels, etc)
 func GetByFilter(ctx context.Context, dynamicClient dynamic.Interface, gvr schema.GroupVersionResource, filter metav1.ListOptions, result interface{}) error {
 	crRaw, err := dynamicClient.
 		Resource(gvr).
@@ -50,6 +53,7 @@ func GetByFilter(ctx context.Context, dynamicClient dynamic.Interface, gvr schem
 	return nil
 }
 
+// ListByFilter gets all custom resources that match a filter (labels, etc)
 func ListByFilter[E interface{}](ctx context.Context, dynamicClient dynamic.Interface, gvr schema.GroupVersionResource, filter metav1.ListOptions, result *[]E) error {
 	crRaw, err := dynamicClient.
 		Resource(gvr).

@@ -1,17 +1,17 @@
 <template>
   <v-card
-    v-if="data.Schedule !== undefined"
+    v-if="data.schedule !== undefined"
   >
     <v-card-item>
-      <v-card-title>{{ data.Schedule.metadata.name }}</v-card-title>
-      <v-card-subtitle v-if="'velero.io/schedule-name' in data.Schedule.metadata.labels">
-            Schedule: {{ data.Schedule.metadata.labels["velero.io/schedule-name"] }}
+      <v-card-title>{{ data.schedule.metadata.name }}</v-card-title>
+      <v-card-subtitle v-if="'velero.io/schedule-name' in data.schedule.metadata.labels">
+            Schedule: {{ data.schedule.metadata.labels["velero.io/schedule-name"] }}
       </v-card-subtitle>
     </v-card-item>
   </v-card>
 
-  <v-container fluid="true">
-    <v-row v-if="data.Schedule">
+  <v-container :fluid=true>
+    <v-row v-if="data.schedule">
       <v-col>
         <p>Backup resource</p>
         <v-sheet elevation="1" class="ma-2">
@@ -25,7 +25,7 @@
           </thead>
           <tbody>
           <tr
-            v-for="(value, key) in data.Schedule.metadata"
+            v-for="(value, key) in data.schedule.metadata"
           >
             <td v-if="!['managedFields', 'annotations'].includes(key)"><b>{{key}}</b></td>
             <td v-if="!['managedFields', 'annotations'].includes(key)">
@@ -53,7 +53,7 @@
           </thead>
           <tbody>
           <tr
-            v-for="(value, key) in data.Schedule.spec"
+            v-for="(value, key) in data.schedule.spec"
           >
             <td v-if="JSON.stringify(value) !== '{}'"><b>{{key}}</b></td>
             <td v-if="JSON.stringify(value) !== '{}'">
@@ -80,12 +80,12 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(value, key) in data.Schedule.status">
+          <tr v-for="(value, key) in data.schedule.status">
             <td><b>{{key}}</b></td>
             <td v-if="key==='progress'">
-              {{ data.Schedule.status.progress.itemsBackedUp }} / {{ data.Schedule.status.progress.totalItems }}
-              <div v-if="data.Schedule.status.phase === 'InProgress'">
-                <v-progress-linear striped color="primary" :model-value="(100*data.Schedule.status.progress.itemsBackedUp)/data.Schedule.status.progress.totalItems"/>
+              {{ data.schedule.status.progress.itemsBackedUp }} / {{ data.schedule.status.progress.totalItems }}
+              <div v-if="data.schedule.status.phase === 'InProgress'">
+                <v-progress-linear striped color="primary" :model-value="(100*data.schedule.status.progress.itemsBackedUp)/data.schedule.status.progress.totalItems"/>
               </div>
             </td>
             <td v-else>{{value}}</td>
@@ -97,13 +97,13 @@
       <v-col>
         <p>Backups</p>
         <backup-line
-          v-if="data.Backups !== undefined"
+          v-if="data.backups !== undefined"
           v-for="item in in_progress_backups"
           key="item.metadata.name"
           :data="item"
         />
         <backup-line
-          v-if="data.Backups !== undefined"
+          v-if="data.backups !== undefined"
           v-for="item in completed_backups"
           key="item.metadata.name"
           :data="item"
@@ -140,12 +140,12 @@ import BackupLine from "@/components/BackupLine.vue";
   }
 
   const completed_backups = computed(() => {
-    return data.value.Backups
+    return data.value.backups
       .filter(item => item.status.phase !== "InProgress" )
       .sort((a, b) => new Date(b.status.startTimestamp) - new Date(a.status.startTimestamp))
   })
   const in_progress_backups = computed(() => {
-    return data.value.Backups
+    return data.value.backups
       .filter(item => item.status.phase === "InProgress" )
       .sort((a, b) => new Date(b.status.startTimestamp) - new Date(a.status.startTimestamp))
   })

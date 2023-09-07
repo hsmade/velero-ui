@@ -3,7 +3,7 @@ package backups
 import (
 	"context"
 	"fmt"
-	"github.com/hsmade/velero-ui/util"
+	"github.com/hsmade/velero-ui/internal/k8s"
 	velerov1api "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -12,12 +12,13 @@ import (
 )
 
 type BackupDetail struct {
-	Backup              *velerov1api.Backup
-	DeleteBackupRequest *velerov1api.DeleteBackupRequest
-	PodVolumeBackups    []*velerov1api.PodVolumeBackup
+	Backup              *velerov1api.Backup              `json:"backup"`
+	DeleteBackupRequest *velerov1api.DeleteBackupRequest `json:"delete_backup_request"`
+	PodVolumeBackups    []*velerov1api.PodVolumeBackup   `json:"pod_volume_backups"`
 }
 
-func Detail(ctx context.Context, dynamicClient dynamic.Interface, name string) (*BackupDetail, error) {
+// GetBackupDetail returns a struct with the backup info for the backup specified by `name`
+func GetBackupDetail(ctx context.Context, dynamicClient dynamic.Interface, name string) (*BackupDetail, error) {
 	backup, err := getBackup(ctx, dynamicClient, name)
 	if err != nil {
 		return nil, fmt.Errorf("get backup: %w", err)
@@ -42,9 +43,10 @@ func Detail(ctx context.Context, dynamicClient dynamic.Interface, name string) (
 	return &result, nil
 }
 
+// getBackup gets a single backup by `name`
 func getBackup(ctx context.Context, dynamicClient dynamic.Interface, name string) (*velerov1api.Backup, error) {
 	backup := new(velerov1api.Backup)
-	err := util.GetByName(ctx, dynamicClient, schema.GroupVersionResource{
+	err := k8s.GetByName(ctx, dynamicClient, schema.GroupVersionResource{
 		Group:    "velero.io",
 		Version:  "v1",
 		Resource: "backups",
@@ -55,9 +57,10 @@ func getBackup(ctx context.Context, dynamicClient dynamic.Interface, name string
 	return backup, err
 }
 
+// getBackupDeleteRequest gets all BackupDeleteRequests by backup `uid`
 func getBackupDeleteRequest(ctx context.Context, dynamicClient dynamic.Interface, uid types.UID) (*velerov1api.DeleteBackupRequest, error) {
 	backupDeleteRequest := new(velerov1api.DeleteBackupRequest)
-	err := util.GetByFilter(ctx, dynamicClient, schema.GroupVersionResource{
+	err := k8s.GetByFilter(ctx, dynamicClient, schema.GroupVersionResource{
 		Group:    "velero.io",
 		Version:  "v1",
 		Resource: "deletebackuprequests",
@@ -68,9 +71,10 @@ func getBackupDeleteRequest(ctx context.Context, dynamicClient dynamic.Interface
 	return backupDeleteRequest, err
 }
 
+// getPodVolumeBackups gets all PodVolumeBackups by backup `uid`
 func getPodVolumeBackups(ctx context.Context, dynamicClient dynamic.Interface, uid types.UID) ([]*velerov1api.PodVolumeBackup, error) {
 	podVolumeBackups := new([]*velerov1api.PodVolumeBackup)
-	err := util.ListByFilter(ctx, dynamicClient,
+	err := k8s.ListByFilter(ctx, dynamicClient,
 		schema.GroupVersionResource{
 			Group:    "velero.io",
 			Version:  "v1",

@@ -7,7 +7,7 @@ import (
 )
 
 func (a *Api) ListBackups(c *gin.Context) {
-	result, err := backups.List(c, a.dynamicClient)
+	result, err := backups.ListBackups(c, a.dynamicClient)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -18,7 +18,7 @@ func (a *Api) ListBackups(c *gin.Context) {
 
 func (a *Api) GetBackup(c *gin.Context) {
 	name := c.Param("name")
-	result, err := backups.Detail(c, a.dynamicClient, name)
+	result, err := backups.GetBackupDetail(c, a.dynamicClient, name)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
