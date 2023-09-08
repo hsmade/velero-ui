@@ -1,10 +1,10 @@
 pod:
-  imageVersion: 0.0.0
+  imageVersion: 0.0.2
 ingress:
   enabled: false
-  # hostname: ""
+  hostname: velero-ui.example.com
   tls:
     enabled: false
-    # secretName: ""
+    secretName: velero-ui-tls
   ingressClassname: nginx
   annotations: {}
