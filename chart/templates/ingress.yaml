@@ -8,9 +8,16 @@ metadata:
       {{ $key }}: {{ $value | quote }}
   {{- end }}
 spec:
+{{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+      - {{ .Values.ingress.hostname | quote }}
+      secretName: {{ .Values.ingress.secretName | default (printf "%s-tls" (include "chronograf.fullname" .)) }}
+{{- end }}
   ingressClassName: {{ .Values.ingress.ingressClassname }}
   rules:
     - http:
+        host: {{ .Values.ingress.hostname }}
         paths:
           - path: /
             pathType: Prefix
