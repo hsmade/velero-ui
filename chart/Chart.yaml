@@ -1,6 +1,6 @@
-apiVersion: 0.0.0
+apiVersion: 0.0.1
 name: velero-ui
-version: 0.0.0
+version: 0.0.1
 description: A simple web UI for velero
 keywords:
   - velero
@@ -10,4 +10,4 @@ sources:
 maintainers:
   - name: Wim Fournier
     email: velero-ui@fournier.nl
-appVersion: 0.0.0
+appVersion: 0.0.1
