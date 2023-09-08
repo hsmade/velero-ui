@@ -15,6 +15,7 @@ spec:
       labels:
         app: {{ .Release.Name }}-ui
     spec:
+      serviceAccountName: {{ .Release.Name }}-ui
       containers:
         - name: velero-ui
           image: "ghcr.io/hsmade/velero-ui:{{ .Values.pod.imageVersion }}"
@@ -22,4 +23,6 @@ spec:
           ports:
             - containerPort: 8080
               name: http
+          env:
+            {{ .Values.pod.env | toYaml | indent 4 }}
       restartPolicy: Always

@@ -1,5 +1,6 @@
 pod:
   imageVersion: 0.0.2
+  env: []
 ingress:
   enabled: false
   hostname: velero-ui.example.com
