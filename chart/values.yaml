@@ -1,6 +1,10 @@
 pod:
   imageVersion: 0.0.0
 ingress:
-  enabled: true
+  enabled: false
+  # hostname: ""
+  tls:
+    enabled: false
+    # secretName: ""
   ingressClassname: nginx
   annotations: {}
