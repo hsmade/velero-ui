@@ -6,5 +6,5 @@ ingress:
   tls:
     enabled: false
     secretName: velero-ui-tls
-  ingressClassname: nginx
+  ingressClassname: ""
   annotations: {}

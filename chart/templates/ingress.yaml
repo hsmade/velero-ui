@@ -14,7 +14,9 @@ spec:
       - {{ .Values.ingress.hostname | quote }}
       secretName: {{ .Values.ingress.tls.secretName }}
 {{- end }}
+  {{- if ne .Values.ingress.ingressClassname "" }}
   ingressClassName: {{ .Values.ingress.ingressClassname }}
+  {{- end }}
   rules:
     - host: {{ .Values.ingress.hostname }}
       http:
