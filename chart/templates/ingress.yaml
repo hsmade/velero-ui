@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
       - {{ .Values.ingress.hostname | quote }}
-      secretName: {{ .Values.ingress.secretName | default (printf "%s-tls" (include "chronograf.fullname" .)) }}
+      secretName: {{ .Values.ingress.secretName }}
 {{- end }}
   ingressClassName: {{ .Values.ingress.ingressClassname }}
   rules:
