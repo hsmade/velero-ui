@@ -1,4 +1,4 @@
-FROM node:20.6.0-alpine as node
+FROM node:20.6.1-alpine as node
 COPY web /app/web
 WORKDIR /app/web
 RUN yarn install
