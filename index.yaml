@@ -3,9 +3,9 @@ entries:
   velero-ui:
   - apiVersion: 0.1.0
     appVersion: 0.1.0
-    created: "2023-10-21T10:10:58.984688677Z"
+    created: "2023-10-21T10:21:51.691731144Z"
     description: A simple web UI for velero
-    digest: 8296a6842887c68aa8019f50d9140d93b5f919674008c2125ac65aef7ee3e726
+    digest: 99f8d89d7ab3d4ecc4c4858d59f4ec77faa1541a22cde03f6d82953c92924018
     keywords:
     - velero
     - ui
@@ -137,4 +137,4 @@ entries:
     urls:
     - https://github.com/hsmade/velero-ui/releases/download/0.0.0/velero-ui-0.0.0.tgz
     version: 0.0.0
-generated: "2023-10-21T10:10:58.984212072Z"
+generated: "2023-10-21T10:21:51.689449925Z"
