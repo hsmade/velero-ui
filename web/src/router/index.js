@@ -27,6 +27,16 @@ const routes = [
         name: 'backup',
         component: () => import(/* webpackChunkName: "home" */ '@/views/Backup.vue'),
       },
+      {
+        path: '/storagelocations',
+        name: 'storagelocations',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/StorageLocations.vue'),
+      },
+      {
+        path: '/storagelocation/:name',
+        name: 'storagelocation',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/StorageLocation.vue'),
+      },
     ],
   },
 ]

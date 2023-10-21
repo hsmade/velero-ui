@@ -3,11 +3,11 @@
     class="pa-0 ma-2"
     :style="properties.data.status.phase?.endsWith('Failed')?
       'border-left: 3px solid #FF7F00': // red
-      properties.data.status.phase==='Completed'?
+      properties.data.status.phase==='Available'?
         'border-left: 3px solid #7FFF00': // green
         'border-left: 3px solid #FFC107' // orange
       "
-    :to="`/backup/${properties.data.metadata.name}`"
+    :to="`/storagelocation/${properties.data.metadata.name}`"
   >
     <v-card-text class="pa-0 ma-0">
       <v-row no-gutters class="pa-0 ma-0">
@@ -20,31 +20,37 @@
         </v-col>
         <v-col>
           <v-sheet class="pa-0 ma-0">
-            {{ properties.data.metadata.name}}
+            {{properties.data.metadata.name}}
             <br/>
-            {{ properties.data.metadata.namespace}}
+            {{properties.data.metadata.namespace}}
           </v-sheet>
         </v-col>
         <v-col>
           <v-sheet class="pa-0 ma-0">
-            <b>Storage:</b>
+            <b>Provider:</b>
             <br/>
-            <b>Progress:</b>
+            <b>Access Mode:</b>
           </v-sheet>
         </v-col>
         <v-col>
           <v-sheet class="pa-0 ma-0">
-            {{ properties.data.spec.storageLocation}}
+            {{properties.data.spec.provider}}
             <br/>
-            <div v-if="properties.data.status.phase === 'InProgress'" >
-              <v-progress-linear
-                striped
-                color="primary"
-                :model-value=100*properties.data.status.progress.itemsBackedUp/properties.data.status.progress.totalItems
-              >
-              </v-progress-linear>
-            </div>
-            <div v-else>{{ properties.data.status.phase }}</div>
+            {{properties.data.spec.accessMode}}
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <v-sheet class="pa-0 ma-0">
+            <b>Bucket:</b>
+            <br/>
+            <b>Prefix:</b>
+          </v-sheet>
+        </v-col>
+        <v-col>
+          <v-sheet class="pa-0 ma-0">
+            {{properties.data.spec.objectStorage.bucket}}
+            <br/>
+            {{properties.data.spec.objectStorage.prefix}}
           </v-sheet>
         </v-col>
       </v-row>

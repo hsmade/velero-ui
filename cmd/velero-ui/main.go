@@ -18,7 +18,11 @@ func main() {
 	}
 
 	r.Static("/assets", "./web/dist/assets")
-	r.StaticFile("/", "./web/dist/index.html")
+	// default to the Vue SPA
+	r.NoRoute(func(c *gin.Context) {
+		c.File("./web/dist/index.html")
+	})
+
 	err = r.Run(":8080")
 	if err != nil {
 		slog.Error("web server exited", "err", err.Error())

@@ -1,19 +1,16 @@
 <template>
   <v-card
-    v-if="data.backup !== undefined"
+    v-if="data.storage_location !== undefined"
   >
     <v-card-item>
-      <v-card-title>{{ data.backup.metadata.name }}</v-card-title>
-      <v-card-subtitle v-if="'velero.io/schedule-name' in data.backup.metadata.labels">
-            Schedule: {{ data.backup.metadata.labels["velero.io/schedule-name"] }}
-      </v-card-subtitle>
+      <v-card-title>{{ data.storage_location.metadata.name }}</v-card-title>
     </v-card-item>
   </v-card>
 
   <v-container :fluid=true>
-    <v-row v-if="data.backup">
+    <v-row v-if="data.storage_location">
       <v-col>
-        <p>Backup resource</p>
+        <p>Storage Location resource</p>
         <v-sheet elevation="1" class="ma-2">
         <v-table density="compact">
           <thead>
@@ -25,7 +22,7 @@
           </thead>
           <tbody>
           <tr
-            v-for="(value, key) in data.backup.metadata"
+            v-for="(value, key) in data.storage_location.metadata"
           >
             <td v-if="!['managedFields', 'annotations'].includes(key)"><b>{{key}}</b></td>
             <td v-if="!['managedFields', 'annotations'].includes(key)">
@@ -53,7 +50,7 @@
           </thead>
           <tbody>
           <tr
-            v-for="(value, key) in data.backup.spec"
+            v-for="(value, key) in data.storage_location.spec"
           >
             <td v-if="JSON.stringify(value) !== '{}'"><b>{{key}}</b></td>
             <td v-if="JSON.stringify(value) !== '{}'">{{value}}</td>
@@ -68,39 +65,13 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(value, key) in data.backup.status">
+          <tr v-for="(value, key) in data.storage_location.status">
             <td><b>{{key}}</b></td>
-            <td v-if="key==='progress'">
-              {{ data.backup.status.progress.itemsBackedUp }} / {{ data.backup.status.progress.totalItems }}
-              <div v-if="data.backup.status.phase === 'InProgress'">
-                <v-progress-linear striped color="primary" :model-value="(100*data.backup.status.progress.itemsBackedUp)/data.backup.status.progress.totalItems"/>
-              </div>
-            </td>
-            <td v-else>{{value}}</td>
+            <td>{{value}}</td>
           </tr>
           </tbody>
         </v-table>
         </v-sheet>
-
-        <p>Delete backup requests</p>
-        <v-sheet>
-          TO BE DONE
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <p>Pod Volume Backups</p>
-        <pod-volume-backup-line
-          v-if="data.pod_volume_backups !== undefined"
-          v-for="item in in_progress_pods"
-          key="item.metadata.name"
-          :data="item"
-        />
-        <pod-volume-backup-line
-          v-if="data.pod_volume_backups !== undefined"
-          v-for="item in completed_pods"
-          key="item.metadata.name"
-          :data="item"
-        />
       </v-col>
     </v-row>
   </v-container>
@@ -126,21 +97,8 @@ import PodVolumeBackupLine from "@/components/PodVolumeBackupLine.vue";
   let data = ref(Object)
 
   function update() {
-    fetch("/api/v1/backup/" + route.params.name)
+    fetch("/api/v1/storagelocation/" + route.params.name)
       .then(response => response.json())
       .then(response => data.value = response.result)
   }
-
-  const completed_pods = computed(() => {
-    if (data.value.pod_volume_backups===null) return null
-    return data.value.pod_volume_backups
-      .filter(item => item.status.phase !== "InProgress" )
-      .sort((a, b) => new Date(b.status.startTimestamp) - new Date(a.status.startTimestamp))
-  })
-  const in_progress_pods = computed(() => {
-    if (data.value.pod_volume_backups===null) return null
-    return data.value.pod_volume_backups
-      .filter(item => item.status.phase === "InProgress" )
-      .sort((a, b) => new Date(b.status.startTimestamp) - new Date(a.status.startTimestamp))
-  })
 </script>

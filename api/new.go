@@ -31,5 +31,7 @@ func New(router *gin.RouterGroup) error {
 	router.GET("/schedule/:name", api.GetSchedule)
 	router.GET("/backups", api.ListBackups)
 	router.GET("/backup/:name", api.GetBackup)
+	router.GET("/storagelocations", api.ListStorageLocations)
+	router.GET("/storagelocation/:name", api.GetStorageLocation)
 	return nil
 }
