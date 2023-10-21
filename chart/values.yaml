@@ -1,5 +1,5 @@
 pod:
-  imageVersion: 0.0.2
+  imageVersion: 0.1.0
   env: []
 ingress:
   enabled: false
