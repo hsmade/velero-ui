@@ -103,6 +103,8 @@ github.com/ugorji/go/codec v1.2.11 h1:BMaWp1Bb6fHwEtbplGBGJ498wD+LKlNSl25MjdZY4d
 github.com/ugorji/go/codec v1.2.11/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZgYf6w6lg=
 github.com/vmware-tanzu/velero v1.11.1 h1:Jw8P1DetGBhmAZQkMRFu2vBvJS0YOR85XfKNpe4BlV8=
 github.com/vmware-tanzu/velero v1.11.1/go.mod h1:ZBLIZSSNb6VzCea+rwcMsixm8AvvxCm6j8UjGiPv7XY=
+github.com/vmware-tanzu/velero v1.12.0 h1:gN8PbQMYOAMv8OYE3RkIvxr6s6IoMS0Daxc+IQN0X5U=
+github.com/vmware-tanzu/velero v1.12.0/go.mod h1:rY2UfdC2K9je9jtjnSBsZr8Zmg8hzePjG2W00Oe/CT4=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 golang.org/x/arch v0.0.0-20210923205945-b76863e36670/go.mod h1:5om86z9Hs0C8fWVUuoMHwpExlXzs5Tkyp9hOrfG7pp8=

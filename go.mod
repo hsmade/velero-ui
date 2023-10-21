@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/vmware-tanzu/velero v1.11.1
+	github.com/vmware-tanzu/velero v1.12.0
 	k8s.io/apimachinery v0.28.2
 	k8s.io/client-go v0.28.2
 )
